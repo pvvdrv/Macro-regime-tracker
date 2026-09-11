@@ -19,7 +19,7 @@ Financial markets do not price in absolute economic numbers; they price in the *
 To strip out seasonal volatility, the model calculates the Year-over-Year (YoY) percentage change for Growth and Inflation. It then calculates a 6-month Simple Moving Average (SMA) of that YoY rate to establish a baseline trend. 
 
 Momentum is defined as the current YoY rate minus its 6-month trend:
-$$ \Delta X_t = X_t - \text{SMA}_6(X_t) $$
+$\Delta X_t = X_t - \text{SMA}_6(X_t)$
 
 If the result is positive, the metric is accelerating. If negative, the metric is decelerating.
 

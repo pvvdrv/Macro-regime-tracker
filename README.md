@@ -1,59 +1,64 @@
 # Quantitative Macro Regime Tracker
 
-## 1. Project Overview
-This project is a systematic, rule-based macroeconomic regime tracker. In traditional finance, discretionary portfolio managers often rely on subjective interpretations of economic data to adjust their asset allocations. This project removes human bias by using quantitative matrix operations in Python to classify the U.S. economy into distinct "regimes" based on the momentum of Growth, Inflation, and Liquidity. 
+![Python](https://img.shields.io/badge/Python-3.9%2B-blue?logo=python)
+![Plotly](https://img.shields.io/badge/Plotly-Interactive%20Charts-indigo?logo=plotly)
+![Data](https://img.shields.io/badge/Data-FRED%20API-green)
 
-The core objective is to backtest whether dynamically rotating capital into theoretically optimal asset classes based on these quantitative regimes can improve risk-adjusted returns and reduce maximum drawdowns compared to a passive S&P 500 benchmark.
+A rule-based macroeconomic classification engine and systematic asset allocation model. The engine tracks the second-derivative momentum of Growth, Inflation, and Yield Curve liquidity to rotate across asset classes and mitigate systemic drawdowns.
 
-## 2. Core Economic Variables
-The model relies on three fundamental macroeconomic proxies, sourced directly via the Federal Reserve Economic Data (FRED) API.
+---
 
-* **Growth (INDPRO):** The U.S. Industrial Production Index is used as the proxy for economic output. It is highly sensitive to the physical business cycle, making it a faster coincident indicator than quarterly GDP.
-* **Inflation (CPIAUCSL):** The Consumer Price Index represents the purchasing power of the consumer and dictates the tightening or easing pressure placed on the central bank.
-* **Liquidity / Interest Rates (T10Y2Y):** The spread between the 10-Year and 2-Year Treasury yields serves as a proxy for financial conditions. An expanding (steepening) spread indicates easing liquidity, while a shrinking or inverted (flattening) spread signals restrictive credit conditions.
+## 📊 Live Interactive Visualizations
+Explore the interactive charts generated directly by the model (hosted via GitHub Pages):
 
-## 3. Methodology & Signal Processing
-Financial markets do not price in absolute economic numbers; they price in the *rate of change* relative to expectations. Therefore, the model processes the raw economic data through a second-derivative momentum framework.
+* **[Interactive Regime History & Asset Trajectories](https://pvvdrv.github.io/Macro-regime-tracker/regime_chart.html)**
+* **[Dynamic Strategy vs. S&P 500 Equity Curve](https://pvvdrv.github.io/Macro-regime-tracker/equity_curve_chart.html)**
 
-### Momentum Calculation
-To strip out seasonal volatility, the model calculates the Year-over-Year (YoY) percentage change for Growth and Inflation. It then calculates a 6-month Simple Moving Average (SMA) of that YoY rate to establish a baseline trend. 
+---
 
-Momentum is defined as the current YoY rate minus its 6-month trend:
-$\Delta X_t = X_t - \text{SMA}_6(X_t)$
+## 1. Quantitative Framework
 
-If the result is positive, the metric is accelerating. If negative, the metric is decelerating.
+### Momentum & Signal Extraction
+Financial markets reprice assets on the *acceleration or deceleration* of economic trends, rather than static levels. The model calculates the Year-over-Year (YoY) percentage change for Industrial Production (Growth) and CPI (Inflation), benchmarked against a 6-month Simple Moving Average (SMA):
 
-### Preventing Look-Ahead Bias
-A critical flaw in many retail quantitative models is look-ahead bias—trading on economic data on the day it represents, rather than the day it was published. To ensure the integrity of the historical backtest, this model applies a strict 1-month lag to all macroeconomic data, ensuring the algorithm only executes trades using fully public information.
+$$\Delta X_t = X_t - \text{SMA}_6(X_t)$$
 
-## 4. The Macroeconomic Matrix (Regime Classification)
-By combining the momentum of Growth and Inflation, the algorithm classifies every month into one of four classic economic quadrants. It then allocates 100% of the portfolio into the historically favored Exchange Traded Fund (ETF) for that specific environment.
+* $\Delta X_t > 0$: Economic variable is **accelerating**.
+* $\Delta X_t \le 0$: Economic variable is **decelerating**.
 
-* **Goldilocks (Accelerating Growth, Decelerating Inflation):** The optimal environment for corporate earnings. Risk assets are favored. **Allocation:** S&P 500 Equities (SPY).
-* **Reflation (Accelerating Growth, Accelerating Inflation):** The economy is overheating, and raw material demand outstrips supply. **Allocation:** Broad Commodities (DBC).
-* **Stagflation (Decelerating Growth, Accelerating Inflation):** The most destructive environment for traditional 60/40 portfolios. Corporate margins are squeezed, and central banks are forced to hike rates into a slowing economy. **Allocation:** Gold (GLD).
-* **Deflation (Decelerating Growth, Decelerating Inflation):** A recessionary impulse characterized by demand destruction. Central banks cut rates to zero, making existing high-yielding debt highly valuable. **Allocation:** Long-Duration U.S. Treasuries (TLT).
+### Look-Ahead Bias Mitigation
+Macroeconomic statistics are subject to publication reporting delays. To maintain backtest validity, a strict **1-month publication lag** (`shift(1)`) is enforced across all FRED series.
 
-## 5. Backtest Results & Conclusions
-The strategy was backtested on monthly data from February 2006 to the present day, tracking the compounding equity curve of a dynamic portfolio against a passive Buy-and-Hold S&P 500 strategy.
+---
 
-* **The Equity Risk Premium Challenge:** From 2009 to 2021, global markets experienced an unprecedented era of Zero Interest Rate Policy (ZIRP) and Quantitative Easing. During this period, the equity risk premium was so massive that any time the model rotated out of Equities and into defensive assets, it suffered a performance drag relative to the raging bull market.
-* **Superior Drawdown Protection:** The true value of the regime tracker is revealed during systemic crises. During the 2008 Global Financial Crisis, the S&P 500 suffered a catastrophic maximum drawdown of over 50%. By systematically identifying the shift into Deflation and rotating into long-duration bonds, the macro strategy capped its worst historical drawdown at approximately 32%.
-* **Conclusion:** The model proves that a rule-based macroeconomic framework can successfully navigate systemic shocks. While a binary "100% rotation" strategy sacrifices too much upside during prolonged bull markets, this quantitative engine serves as an excellent foundation for an institutional "portfolio tilting" strategy.
+## 2. Macro Allocation Matrix
 
-## 6. Future Enhancements
-To evolve this model from a discrete rule-based tracker into a predictive quantitative engine, the following upgrades are planned:
-* **Machine Learning Integration:** Replacing the moving average crossover logic with a Random Forest classifier to predict the probability of a regime transition *before* the lagged economic data is officially published.
-* **Continuous-Time Yield Curve Modeling:** Expanding the liquidity overlay to model absolute real rates alongside the 10Y/2Y spread, providing a more granular signal for bond allocation.
-* **Portfolio Tilting:** Shifting from a 100% capital rotation to a dynamic weighting model (e.g., tilting a baseline 60/40 portfolio based on the active regime's risk profile).
+| Regime | Growth ($\Delta G$) | Inflation ($\Delta I$) | Primary Allocation | Economic Rationale |
+| :--- | :---: | :---: | :---: | :--- |
+| **Goldilocks** | > 0 | $\le$ 0 | **SPY** (S&P 500) | Expanding earnings + loose financial conditions |
+| **Reflation** | > 0 | > 0 | **DBC** (Commodities) | Demand pull and input-cost acceleration |
+| **Stagflation**| $\le$ 0 | > 0 | **GLD** (Gold) | Margin compression and monetary debasement hedge |
+| **Deflation** | $\le$ 0 | $\le$ 0 | **TLT** (Long Treasuries)| Demand destruction and flight-to-safety duration |
 
-## 7. How to Run This Project
-### Prerequisites
-* Python 3.8+
-* A free API key from [FRED (Federal Reserve Economic Data)](https://fred.stlouisfed.org/)
+*A 10Y-2Y Treasury spread momentum overlay provides secondary liquidity confirmation (Easing vs. Tightening).*
 
-### Installation
-1. Clone this repository to your local machine.
-2. Install the required dependencies:
-   ```bash
-   pip install pandas numpy yfinance fredapi plotly
+---
+
+## 3. Backtest Performance (2006 – Present)
+
+| Metric | Benchmark: S&P 500 (SPY) | Macro Regime Strategy | Delta / Insight |
+| :--- | :---: | :---: | :--- |
+| **CAGR** | 11.11% | 6.03% | SPY benefited from the post-2008 zero-rate regime |
+| **Volatility (Ann.)**| 15.13% | 15.97% | Comparable risk profile across cycles |
+| **Sharpe Ratio** | 0.73 | 0.38 | Drag from holding defensive assets in bull markets |
+| **Max Drawdown** | **-50.78%** | **-32.36%** | **+18.42% capital preservation in crises (2008)** |
+
+---
+
+## 4. Repository Structure
+
+```text
+├── macro_regime_tracker.py   # Full OOP pipeline (Data, Signals, Backtest, Plots)
+├── regime_chart.html         # Exported interactive regime dashboard
+├── equity_curve_chart.html   # Exported backtest equity curve
+└── README.md                 # Project documentation and performance summary

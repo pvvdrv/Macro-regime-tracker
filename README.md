@@ -1,4 +1,4 @@
-# Quantitative Macro Regime Tracker
+# Macro Regime Tracker
 
 A systematic, rule-based asset allocation model built in Python that tracks economic growth, inflation, and interest rate trends to dynamically manage risk across market cycles.
 

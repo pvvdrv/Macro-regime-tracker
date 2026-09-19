@@ -97,7 +97,7 @@ We simulated this dynamic strategy against a passive Buy-and-Hold S&P 500 approa
 
 1. **The Cost of Safety in Bull Markets:** Between 2009 and 2021, the market experienced historically low interest rates and massive monetary stimulus. U.S. large-cap stocks grew at an extraordinary pace. Every time our model switched into defensive assets like gold or bonds during a brief growth slowdown, it missed out on equity gains.
 2. **Crash Protection When It Matters Most:** The real power of this model is defense. During the 2008 Global Financial Crisis, passive stock investors lost more than **50%** of their money. Because our model spotted the deflationary collapse early, it rotated into long-term government bonds, capping the strategy's worst historical drawdown at **32%**.
-3. **The Next Step (Tilting vs. Switching):** Completely selling out of stocks into cash or bonds can create whipsaw losses if a slowdown is brief. The ideal real-world use of this model is not an "all-or-nothing" switch, but a **portfolio tilting tool**—for example, keeping a core base of 60% stocks / 40% bonds, and tilting an extra 20% toward gold or commodities when the economic weather changes.
+3. **The Next Step (Tilting vs. Switching):** Completely selling out of stocks into cash or bonds can create whipsaw losses if a slowdown is brief. The ideal real-world use of this model is not an "all-or-nothing" switch, but a **portfolio tilting tool** for example, keeping a core base of 60% stocks / 40% bonds, and tilting an extra 20% toward gold or commodities when the economic weather changes.
 
 ---
 

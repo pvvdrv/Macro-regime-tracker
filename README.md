@@ -98,7 +98,7 @@ The Python script automatically generates two dark-mode, high-contrast HTML dash
 * **The Neon Lines (Asset Performance):** All four asset classes (Cyan for SPY, Purple for TLT, Gold for GLD, and Coral for DBC) are normalized to a starting base of 100. This allows you to instantly compare which asset decoupled and saved the portfolio during specific historical crises.
 
 ### Chart 2: Equity Curve Simulation (`equity_curve_chart.html`)
-* **Green Line (Tactical Strategy) vs. Dashed Silver Line (S&P 500):**
+* **Neon Green Line (Tactical Strategy) vs. Dashed Silver Line (S&P 500):**
   * When the dashed silver line crashes (like in 2008 or 2020), watch how the green line stays elevated. This is the strategy automatically rotating into bonds or gold to cushion the blow.
   * Conversely, during the massive 2012–2021 bull market, the silver line pulls ahead. This visually demonstrates the "opportunity cost" of rotating into defensive assets during minor economic speedbumps while the Federal Reserve is heavily stimulating the stock market.
 
@@ -115,4 +115,42 @@ We simulated this dynamic strategy against a passive Buy-and-Hold S&P 500 approa
 | **Annual Growth Rate (CAGR)** | 11.11% | 6.03% | Equities delivered higher total returns during the decade-long bull market. |
 | **Annual Volatility** | 15.13% | 15.97% | Both strategies had roughly similar fluctuations across the full period. |
 | **Sharpe Ratio** | 0.73 | 0.38 | S&P 500 delivered higher returns per unit of total risk. |
-| **Maximum Drawdown (Worst Crash)** | **-50.78%** | **
+| **Maximum Drawdown (Worst Crash)** | **-50.78%** | **-32.36%** | **The macro model protected capital far better during major crashes.** |
+
+### Key Takeaways from the Data
+
+1. **The Cost of Safety in Bull Markets:** Between 2009 and 2021, the market experienced historically low interest rates and massive monetary stimulus. U.S. large-cap stocks grew at an extraordinary pace. Every time our model switched into defensive assets like gold or bonds during a brief growth slowdown, it missed out on equity gains.
+2. **Crash Protection When It Matters Most:** The real power of this model is defense. During the 2008 Global Financial Crisis, a basic buy-and-hold stock portfolio lost over 50%. By automatically switching to safe government bonds (TLT) when the economy slowed, this model limited its worst drop to **-32.36%**.
+3. **The Next Step (Tilting vs. Switching):** Completely selling out of stocks into cash or bonds can create whipsaw losses if a slowdown is brief. The ideal real-world use of this model is not an "all-or-nothing" switch, but a **portfolio tilting tool**—for example, keeping a core base of 60% stocks / 40% bonds, and tilting an extra 10% or 20% into the favored asset while keeping the rest invested normally.
+
+---
+
+## 7. Academic References & Literature
+
+The systematic rules, regime definitions, and risk-management principles used in this model are grounded in the following academic and industry literature:
+
+1. **The 4-Regime Framework (Growth vs. Inflation):**
+   * Dalio, R. (2004). *Engineering Targeted Returns and Risks*. Bridgewater Associates. *(Pioneered the foundational "All Weather" matrix that divides the economic environment into four quadrants based on accelerating/decelerating growth and inflation).*
+2. **Tactical Asset Allocation & Trend Following:**
+   * Faber, M. T. (2007). "A Quantitative Approach to Tactical Asset Allocation." *The Journal of Wealth Management*. *(Provides the mathematical justification for using Simple Moving Averages (SMA) to rotate assets and protect against severe market drawdowns).*
+3. **Asset Behavior Across Business Cycles:**
+   * Ilmanen, A. (2011). *Expected Returns: An Investor's Guide to Harvesting Market Rewards*. Wiley. *(An industry-standard text detailing exactly why certain asset classes, like long-term treasuries and commodities, outperform in specific deflationary or inflationary regimes).*
+4. **Yield Curve and Economic Forecasting:**
+   * Estrella, A., & Mishkin, F. S. (1996). "The Yield Curve as a Predictor of U.S. Recessions." *Federal Reserve Bank of New York*. *(Validates the use of the 10-Year minus 2-Year Treasury spread (`T10Y2Y`) as a leading indicator for credit liquidity and economic deceleration).*
+5. **Quantitative Backtesting & Look-Ahead Bias:**
+   * Lopez de Prado, M. (2018). *Advances in Financial Machine Learning*. Wiley. *(Explains the critical necessity of lagging economic data releases (`.shift(1)`) to eliminate look-ahead bias and create realistic financial simulations).*
+
+---
+
+## 8. How the Code is Structured
+
+The project is built using a clean Object-Oriented structure in Python:
+
+```text
+Macro-regime-tracker/
+│
+├── macro_regime_tracker.py   # Main Python script with all class methods
+├── regime_chart.html         # Generated interactive chart of regimes over time
+├── equity_curve_chart.html   # Generated interactive chart of backtest returns
+├── requirements.txt          # List of required Python libraries
+└── README.md                 # Project documentation and analysis

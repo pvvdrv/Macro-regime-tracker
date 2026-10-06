@@ -45,7 +45,7 @@ To understand where the economy is headed, the model looks at three core variabl
 
 ## 3. How We Process the Data (The Logic & Math)
 
-Financial markets rarely react to raw economic levels alone. Instead, markets care about **momentum**-whether things are getting better or worse relative to recent trends.
+Financial markets rarely react to raw economic levels alone. Instead, markets care about **momentum**—whether things are getting better or worse relative to recent trends.
 
 ### Step 1: Stripping Out Seasonality (Year-over-Year Change)
 Raw monthly numbers can be misleading. For example, retail sales and production always jump around December due to the holiday season. To eliminate this seasonal noise, we calculate the 12-month percentage change:

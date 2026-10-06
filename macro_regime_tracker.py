@@ -474,7 +474,7 @@ class MacroRegimeTracker:
                 <div class="card-header" style="color: #ffd700;">
                     <span>&#9670;</span> Implementation: Tilting vs. All-or-Nothing
                 </div>
-                <p>In the real world, you wouldn't sell all your stocks at once. Instead, you can use this model to <strong>tilt</strong> a standard portfolio—shifting 10% or 20% of your money into the favored asset while keeping the rest invested normally.</p>
+                <p>In the real world, you wouldn't sell all your stocks at once. Instead, you can use this model to <strong>tilt</strong> a standard portfolio, shifting 10% or 20% of your money into the favored asset while keeping the rest invested normally.</p>
             </div>
         </div>
         """
@@ -490,7 +490,7 @@ class MacroRegimeTracker:
 
 
 if __name__ == "__main__":
-    API_KEY = "YOUR_FRED_API_KEY"
+    API_KEY = "YOUR KEY HERE"
     SAVE_DIRECTORY = r"C:\Documents\Project\Macro\Projects\Macro regime tracker"
 
     # Automatically create the directory if it doesn't already exist

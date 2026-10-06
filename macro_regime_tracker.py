@@ -139,6 +139,12 @@ class MacroRegimeTracker:
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- ANTI-CACHING TAGS TO FORCE BROWSER/GITHUB REFRESH -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
     <title>{title}</title>
     <style>
         * {{ box-sizing: border-box; margin: 0; padding: 0; }}
@@ -240,10 +246,11 @@ class MacroRegimeTracker:
         with open(filename, "w", encoding="utf-8") as f:
             f.write(html_content)
             
+        # Automatically open the generated HTML file in the default web browser
         filepath = f"file:///{os.path.abspath(filename).replace('\\', '/')}"
         webbrowser.open(filepath)
 
-    def plot_regimes(self):
+    def plot_regimes(self, output_dir: str = "."):
         """Exports high-contrast interactive regime history with institutional styling to HTML."""
         print("Generating high-contrast regime chart...")
         common_dates = self.macro_data.index.intersection(self.market_data.index)
@@ -384,15 +391,16 @@ class MacroRegimeTracker:
         </div>
         """
 
+        filename = os.path.join(output_dir, "regime_chart.html")
         self._wrap_with_dashboard_template(
             fig=fig,
             title="Macroeconomic Regime History & Asset Normalization",
             subtitle="Historical business cycle partitioning via US Industrial Production, CPI, and 10Y-2Y Treasury spread momentum",
             guide_html=guide_html,
-            filename="regime_chart.html"
+            filename=filename
         )
 
-    def plot_equity_curve(self):
+    def plot_equity_curve(self, output_dir: str = "."):
         """Exports high-contrast interactive backtest equity curve with institutional styling to HTML."""
         print("Generating high-contrast equity curve chart...")
         fig = go.Figure()
@@ -469,17 +477,22 @@ class MacroRegimeTracker:
         </div>
         """
 
+        filename = os.path.join(output_dir, "equity_curve_chart.html")
         self._wrap_with_dashboard_template(
             fig=fig,
             title="Equity Curve Simulation: Macro Tactical Rotation vs. S&P 500",
             subtitle="Cumulative compounding simulation ($100 starting base, 2006-Present) strictly lagged to eliminate look-ahead bias",
             guide_html=guide_html,
-            filename="equity_curve_chart.html"
+            filename=filename
         )
 
 
 if __name__ == "__main__":
     API_KEY = "YOUR_FRED_API_KEY"
+    SAVE_DIRECTORY = r"C:\Documents\Project\Macro\Projects\Macro regime tracker"
+
+    # Automatically create the directory if it doesn't already exist
+    os.makedirs(SAVE_DIRECTORY, exist_ok=True)
 
     tracker = MacroRegimeTracker(fred_api_key=API_KEY)
     tracker.fetch_macro_data()
@@ -488,5 +501,6 @@ if __name__ == "__main__":
     tracker.run_backtest()
     tracker.print_performance()
 
-    tracker.plot_regimes()
-    tracker.plot_equity_curve()
+    # Pass the custom save directory to the plotting functions
+    tracker.plot_regimes(output_dir=SAVE_DIRECTORY)
+    tracker.plot_equity_curve(output_dir=SAVE_DIRECTORY)

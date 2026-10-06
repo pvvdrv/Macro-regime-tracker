@@ -358,6 +358,7 @@ class MacroRegimeTracker:
             )
         )
 
+        # UPDATED: Simplified plain-English interpretations
         guide_html = """
         <div class="grid">
             <div class="card" style="border-left: 4px solid #2ecc71;">
@@ -365,28 +366,28 @@ class MacroRegimeTracker:
                     <span class="badge" style="background-color: rgba(46, 204, 113, 0.2); color: #2ecc71;">GOLDILOCKS</span>
                     Accelerating Growth + Decelerating Inflation
                 </div>
-                <p><strong>Primary Asset: SPY (S&P 500)</strong><br>Corporate margins expand without central bank interest rate pressure. Equities historically dominate this regime with low macro drag.</p>
+                <p><strong>Primary Asset: SPY (S&P 500)</strong><br>Companies grow their profits without high interest rates slowing them down. Stocks typically perform best in this environment.</p>
             </div>
             <div class="card" style="border-left: 4px solid #f39c12;">
                 <div class="card-header" style="color: #f39c12;">
                     <span class="badge" style="background-color: rgba(243, 156, 18, 0.2); color: #f39c12;">REFLATION</span>
                     Accelerating Growth + Accelerating Inflation
                 </div>
-                <p><strong>Primary Asset: DBC (Commodities)</strong><br>Aggregate consumer and industrial demand outstrips raw material capacity. Real physical assets appreciate faster than financial paper assets.</p>
+                <p><strong>Primary Asset: DBC (Commodities)</strong><br>Strong economic demand outpaces the supply of raw materials. Physical commodities (like oil and metals) grow faster than stocks or bonds.</p>
             </div>
             <div class="card" style="border-left: 4px solid #e74c3c;">
                 <div class="card-header" style="color: #e74c3c;">
                     <span class="badge" style="background-color: rgba(231, 76, 60, 0.2); color: #e74c3c;">STAGFLATION</span>
                     Decelerating Growth + Accelerating Inflation
                 </div>
-                <p><strong>Primary Asset: GLD (Gold)</strong><br>Rising production costs compress company earnings while monetary authorities hike borrowing rates. Physical gold protects purchasing power.</p>
+                <p><strong>Primary Asset: GLD (Gold)</strong><br>Rising costs shrink company profits while central banks raise rates to fight inflation. Physical gold acts as a safe haven to protect your money.</p>
             </div>
             <div class="card" style="border-left: 4px solid #3498db;">
                 <div class="card-header" style="color: #3498db;">
                     <span class="badge" style="background-color: rgba(52, 152, 219, 0.2); color: #3498db;">DEFLATION</span>
                     Decelerating Growth + Decelerating Inflation
                 </div>
-                <p><strong>Primary Asset: TLT (20Y+ Treasuries)</strong><br>Demand contraction prompts emergency central bank policy rate reductions. Plunging yields drive capital gains in long-duration sovereign paper.</p>
+                <p><strong>Primary Asset: TLT (20Y+ Treasuries)</strong><br>The economy slows down, forcing central banks to cut interest rates. As rates fall, long-term government bonds jump in value.</p>
             </div>
         </div>
         """
@@ -454,25 +455,26 @@ class MacroRegimeTracker:
             )
         )
 
+        # UPDATED: Simplified plain-English interpretations
         guide_html = """
         <div class="grid">
             <div class="card">
                 <div class="card-header" style="color: #00E676;">
                     <span>&#9670;</span> Tail-Risk & Crash Defense (2008 & 2020)
                 </div>
-                <p>During the 2008 Global Financial Crisis, passive equity buy-and-hold crashed by <strong>-50.78%</strong>. By actively rotating into long-term sovereign debt (TLT) upon deflationary momentum detection, the strategy capped maximum historical drawdown to <strong>-32.36%</strong>.</p>
+                <p>During the 2008 crash, a basic buy-and-hold stock portfolio lost over 50%. By automatically switching to safe government bonds (TLT) when the economy slowed, this model limited its worst drop to <strong>-32.36%</strong>.</p>
             </div>
             <div class="card">
                 <div class="card-header" style="color: #58a6ff;">
-                    <span>&#9670;</span> The Opportunity Cost in Structural Bull Markets
+                    <span>&#9670;</span> The Opportunity Cost in Bull Markets
                 </div>
-                <p>During the protracted zero-interest-rate environment (2012–2021), US large-cap equities compounded aggressively. Any dynamic rotation into defensive commodities or gold during short-lived growth decelerations incurred an performance drag against 100% equity concentration.</p>
+                <p>When interest rates were near zero (2012–2021), stocks surged. Because this model occasionally hid in safe assets during minor slowdowns, it didn't capture 100% of the stock market's massive gains.</p>
             </div>
             <div class="card">
                 <div class="card-header" style="color: #ffd700;">
-                    <span>&#9670;</span> Implementation: Dynamic Tilting vs. All-or-Nothing
+                    <span>&#9670;</span> Implementation: Tilting vs. All-or-Nothing
                 </div>
-                <p>The practical takeaway for asset allocators is using this regime signal as a <strong>portfolio tilting overlay</strong> (e.g., maintaining a 60/40 anchor while shifting 20% tactical sleeves into the favored regime asset) rather than full 100% binary switches.</p>
+                <p>In the real world, you wouldn't sell all your stocks at once. Instead, you can use this model to <strong>tilt</strong> a standard portfolio—shifting 10% or 20% of your money into the favored asset while keeping the rest invested normally.</p>
             </div>
         </div>
         """

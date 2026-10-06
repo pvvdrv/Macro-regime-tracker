@@ -87,14 +87,14 @@ The Python script automatically generates two dark-mode, high-contrast HTML dash
 
 ### Chart 1: Macroeconomic Regime History (`regime_chart.html`)
 * **The Background Shading (Economic Weather):**
-  * **Emerald Green (Goldilocks):** Growth is up, inflation is down. Equities historically dominate here.
+  * **Green (Goldilocks):** Growth is up, inflation is down. Equities historically dominate here.
   * **Warm Amber (Reflation):** Growth is up, inflation is up. Commodities and physical assets take the lead.
-  * **Vivid Crimson (Stagflation):** Growth is down, inflation is up. A toxic environment for stocks/bonds; Gold protects purchasing power.
-  * **Electric Blue (Deflation):** Growth is down, inflation is down. Plunging yields drive capital gains in long-duration Treasury bonds.
-* **The Neon Lines (Asset Performance):** All four asset classes (SPY, TLT, GLD, DBC) are normalized to a starting base of 100. This allows you to instantly compare which asset decoupled and saved the portfolio during specific historical crises.
+  * **Crimson (Stagflation):** Growth is down, inflation is up. A toxic environment for stocks/bonds; Gold protects purchasing power.
+  * **Blue (Deflation):** Growth is down, inflation is down. Plunging yields drive capital gains in long-duration Treasury bonds.
+* **The Green Lines (Asset Performance):** All four asset classes (SPY, TLT, GLD, DBC) are normalized to a starting base of 100. This allows you to instantly compare which asset decoupled and saved the portfolio during specific historical crises.
 
 ### Chart 2: Equity Curve Simulation (`equity_curve_chart.html`)
-* **Neon Green Line (Tactical Strategy) vs. Dashed Silver Line (S&P 500):**
+* **Green Line (Tactical Strategy) vs. Dashed Silver Line (S&P 500):**
   * When the dashed silver line crashes (like in 2008 or 2020), watch how the green line stays elevated. This is the strategy automatically rotating into bonds or gold to cushion the blow.
   * Conversely, during the massive 2012–2021 bull market, the silver line pulls ahead. This visually demonstrates the "opportunity cost" of rotating into defensive assets during minor economic speedbumps while the Federal Reserve is heavily stimulating the stock market.
 

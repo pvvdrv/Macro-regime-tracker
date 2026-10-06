@@ -24,11 +24,11 @@ This project builds a systematic, rules-based engine that removes emotions from 
 
 To understand where the economy is headed, the model looks at three core variables pulled directly from the Federal Reserve Economic Data (FRED) API:
 
-### 1. Growth — Industrial Production Index (`INDPRO`)
+### 1. Growth   Industrial Production Index (`INDPRO`)
 * **What it measures:** The physical output of factories, mines, and utilities across the United States.
 * **Why we use it:** While Gross Domestic Product (GDP) is the most famous measure of growth, it is only published once every three months. Industrial Production comes out monthly, giving us a much faster read on the real business cycle.
 
-### 2. Inflation — Consumer Price Index (`CPIAUCSL`)
+### 2. Inflation - Consumer Price Index (`CPIAUCSL`)
 * **What it measures:** The average change over time in the prices paid by consumers for everyday goods and services.
 * **Why we use it:** Inflation determines what the central bank (the Federal Reserve) does next. When inflation runs hot, the Fed raises interest rates, increasing borrowing costs for companies. When inflation falls, the Fed has room to cut rates and support the economy.
 

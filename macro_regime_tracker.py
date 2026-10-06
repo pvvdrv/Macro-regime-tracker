@@ -1,3 +1,5 @@
+import os
+import webbrowser
 import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
@@ -237,6 +239,9 @@ class MacroRegimeTracker:
 </html>"""
         with open(filename, "w", encoding="utf-8") as f:
             f.write(html_content)
+            
+        filepath = f"file:///{os.path.abspath(filename).replace('\\', '/')}"
+        webbrowser.open(filepath)
 
     def plot_regimes(self):
         """Exports high-contrast interactive regime history with institutional styling to HTML."""

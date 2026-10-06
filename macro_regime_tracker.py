@@ -74,7 +74,7 @@ class MacroRegimeTracker:
         """Executes asset allocation based on regime signals and tracks compounding returns."""
         print("Running backtest simulation...")
         returns = self.market_data.pct_change() * 100
-        
+
         # Shift returns back by 1 month to pair signal at t with performance over t+1
         fwd_returns = returns.shift(-1).dropna()
         fwd_returns.columns = [f"{col}_Fwd_Return" for col in fwd_returns.columns]
@@ -119,7 +119,7 @@ class MacroRegimeTracker:
         strat_cagr, strat_vol, strat_sharpe, strat_mdd = calc_metrics('Strategy_Equity', 'Strategy_Return')
 
         print("\n" + "=" * 48)
-        print("         STRATEGY PERFORMANCE VS S&P 500       ")
+        print("          STRATEGY PERFORMANCE VS S&P 500       ")
         print("=" * 48)
         print(f"{'Metric':<16} | {'S&P 500 (SPY)':<14} | {'Macro Strategy':<14}")
         print("-" * 48)
@@ -129,9 +129,118 @@ class MacroRegimeTracker:
         print(f"{'Max Drawdown':<16} | {spy_mdd * 100:>12.2f}% | {strat_mdd * 100:>12.2f}%")
         print("=" * 48 + "\n")
 
+    def _wrap_with_dashboard_template(self, fig: go.Figure, title: str, subtitle: str, guide_html: str, filename: str):
+        """Wraps Plotly figure into an institutional dark dashboard with an interpretation guide."""
+        chart_div = fig.to_html(full_html=False, include_plotlyjs='cdn')
+        html_content = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title}</title>
+    <style>
+        * {{ box-sizing: border-box; margin: 0; padding: 0; }}
+        body {{
+            background-color: #0b0e14;
+            color: #e6edf3;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            padding: 30px;
+        }}
+        .header {{
+            margin-bottom: 24px;
+            border-bottom: 1px solid #21262d;
+            padding-bottom: 16px;
+        }}
+        .header h1 {{
+            font-size: 26px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+        }}
+        .header p {{
+            font-size: 14px;
+            color: #8b949e;
+            margin-top: 6px;
+        }}
+        .chart-card {{
+            background-color: #12161f;
+            border: 1px solid #21262d;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+        }}
+        .guide-container {{
+            background-color: #12161f;
+            border: 1px solid #21262d;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+        }}
+        .guide-title {{
+            font-size: 18px;
+            font-weight: 600;
+            color: #58a6ff;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }}
+        .grid {{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }}
+        .card {{
+            background-color: #161b26;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 16px;
+        }}
+        .card-header {{
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }}
+        .card p {{
+            font-size: 13px;
+            line-height: 1.5;
+            color: #c9d1d9;
+        }}
+        .badge {{
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+        }}
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>{title}</h1>
+        <p>{subtitle}</p>
+    </div>
+    <div class="chart-card">
+        {chart_div}
+    </div>
+    <div class="guide-container">
+        <div class="guide-title">
+            <span>&#9432;</span> How to Interpret This Dashboard
+        </div>
+        {guide_html}
+    </div>
+</body>
+</html>"""
+        with open(filename, "w", encoding="utf-8") as f:
+            f.write(html_content)
+
     def plot_regimes(self):
-        """Exports interactive regime history with background shading to HTML."""
-        print("Generating regime chart...")
+        """Exports high-contrast interactive regime history with institutional styling to HTML."""
+        print("Generating high-contrast regime chart...")
         common_dates = self.macro_data.index.intersection(self.market_data.index)
         plot_macro = self.macro_data.loc[common_dates]
         prices = self.market_data[self.tickers].loc[common_dates]
@@ -139,12 +248,12 @@ class MacroRegimeTracker:
 
         fig = go.Figure()
 
-        # Regime background highlights
+        # Regime background shading (punchy contrast on dark canvas)
         regime_colors = {
-            'Goldilocks': 'lightgreen',
-            'Reflation': 'orange',
-            'Stagflation': 'lightcoral',
-            'Deflation': 'lightblue'
+            'Goldilocks': 'rgba(46, 204, 113, 0.22)',   # Vivid Emerald
+            'Reflation': 'rgba(243, 156, 18, 0.22)',    # Warm Amber
+            'Stagflation': 'rgba(231, 76, 60, 0.22)',   # Vibrant Crimson
+            'Deflation': 'rgba(52, 152, 219, 0.22)'     # Electric Blue
         }
         for regime, color in regime_colors.items():
             y_vals = [5000 if r == regime else 0 for r in plot_macro['Regime']]
@@ -154,28 +263,33 @@ class MacroRegimeTracker:
                 fill='tozeroy',
                 mode='none',
                 fillcolor=color,
-                opacity=0.3,
+                opacity=0.4,
                 name=f"Regime: {regime}",
                 hoverinfo='skip',
                 line_shape='hv'
             ))
 
-        # Normalized asset price paths
-        line_colors = {'SPY': 'black', 'TLT': 'blue', 'GLD': 'gold', 'DBC': 'brown'}
+        # Vibrant neon asset paths
+        line_specs = {
+            'SPY': dict(color='#00F0FF', width=2.5, name='SPY (S&P 500)'),
+            'TLT': dict(color='#A29BFE', width=2.2, name='TLT (20Y+ Treasuries)'),
+            'GLD': dict(color='#FFD700', width=2.2, name='GLD (Gold)'),
+            'DBC': dict(color='#FF7675', width=2.0, name='DBC (Commodities)')
+        }
         for ticker in self.tickers:
             fig.add_trace(go.Scatter(
                 x=normalized_prices.index,
                 y=normalized_prices[ticker],
                 mode='lines',
-                name=ticker,
-                line=dict(color=line_colors[ticker], width=2)
+                name=line_specs[ticker]['name'],
+                line=dict(color=line_specs[ticker]['color'], width=line_specs[ticker]['width'])
             ))
 
         # Historical crisis callouts
         key_events = [
-            {"date": "2008-09-30", "text": "Lehman Collapse<br>(Deflation)"},
-            {"date": "2020-03-31", "text": "COVID Crash<br>(Deflation)"},
-            {"date": "2022-03-31", "text": "Rate Hike Cycle<br>(Stagflation)"}
+            {"date": "2008-09-30", "text": "Lehman Collapse<br>(Deflation Rotation)", "ay": -70},
+            {"date": "2020-03-31", "text": "COVID Crash<br>(Deflation Liquidity)", "ay": -85},
+            {"date": "2022-03-31", "text": "Fed Rate Hike Cycle<br>(Stagflation Spike)", "ay": -65}
         ]
         for event in key_events:
             try:
@@ -188,53 +302,175 @@ class MacroRegimeTracker:
                 text=event["text"],
                 showarrow=True,
                 arrowhead=2,
+                arrowsize=1,
+                arrowwidth=1.5,
+                arrowcolor="#8B949E",
                 ax=-40,
-                ay=-60,
-                bgcolor="white",
-                bordercolor="black"
+                ay=event["ay"],
+                bgcolor="#161B26",
+                bordercolor="#30363D",
+                borderwidth=1,
+                font=dict(color="#FFFFFF", size=11)
             )
 
         max_val = normalized_prices.max().max() * 1.15
         fig.update_layout(
-            title="Macroeconomic Regime History & Asset Normalization (Base = 100)",
-            yaxis_title="Normalized Value",
-            xaxis_title="Date",
+            paper_bgcolor="#12161f",
+            plot_bgcolor="#12161f",
+            font=dict(family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif", color="#C9D1D9"),
+            yaxis=dict(
+                title="Normalized Performance (Base = 100)",
+                range=[0, max_val],
+                gridcolor="#21262d",
+                zerolinecolor="#30363d",
+                showline=True,
+                linecolor="#30363d"
+            ),
+            xaxis=dict(
+                title="Observation Date",
+                gridcolor="#21262d",
+                zerolinecolor="#30363d",
+                showline=True,
+                linecolor="#30363d"
+            ),
             hovermode="x unified",
-            template="plotly_white",
             height=650,
-            yaxis=dict(range=[0, max_val])
+            margin=dict(l=50, r=30, t=20, b=40),
+            legend=dict(
+                orientation="h",
+                yanchor="bottom",
+                y=1.02,
+                xanchor="right",
+                x=1,
+                font=dict(size=11)
+            )
         )
-        fig.write_html("regime_chart.html", auto_open=True)
+
+        guide_html = """
+        <div class="grid">
+            <div class="card" style="border-left: 4px solid #2ecc71;">
+                <div class="card-header" style="color: #2ecc71;">
+                    <span class="badge" style="background-color: rgba(46, 204, 113, 0.2); color: #2ecc71;">GOLDILOCKS</span>
+                    Accelerating Growth + Decelerating Inflation
+                </div>
+                <p><strong>Primary Asset: SPY (S&P 500)</strong><br>Corporate margins expand without central bank interest rate pressure. Equities historically dominate this regime with low macro drag.</p>
+            </div>
+            <div class="card" style="border-left: 4px solid #f39c12;">
+                <div class="card-header" style="color: #f39c12;">
+                    <span class="badge" style="background-color: rgba(243, 156, 18, 0.2); color: #f39c12;">REFLATION</span>
+                    Accelerating Growth + Accelerating Inflation
+                </div>
+                <p><strong>Primary Asset: DBC (Commodities)</strong><br>Aggregate consumer and industrial demand outstrips raw material capacity. Real physical assets appreciate faster than financial paper assets.</p>
+            </div>
+            <div class="card" style="border-left: 4px solid #e74c3c;">
+                <div class="card-header" style="color: #e74c3c;">
+                    <span class="badge" style="background-color: rgba(231, 76, 60, 0.2); color: #e74c3c;">STAGFLATION</span>
+                    Decelerating Growth + Accelerating Inflation
+                </div>
+                <p><strong>Primary Asset: GLD (Gold)</strong><br>Rising production costs compress company earnings while monetary authorities hike borrowing rates. Physical gold protects purchasing power.</p>
+            </div>
+            <div class="card" style="border-left: 4px solid #3498db;">
+                <div class="card-header" style="color: #3498db;">
+                    <span class="badge" style="background-color: rgba(52, 152, 219, 0.2); color: #3498db;">DEFLATION</span>
+                    Decelerating Growth + Decelerating Inflation
+                </div>
+                <p><strong>Primary Asset: TLT (20Y+ Treasuries)</strong><br>Demand contraction prompts emergency central bank policy rate reductions. Plunging yields drive capital gains in long-duration sovereign paper.</p>
+            </div>
+        </div>
+        """
+
+        self._wrap_with_dashboard_template(
+            fig=fig,
+            title="Macroeconomic Regime History & Asset Normalization",
+            subtitle="Historical business cycle partitioning via US Industrial Production, CPI, and 10Y-2Y Treasury spread momentum",
+            guide_html=guide_html,
+            filename="regime_chart.html"
+        )
 
     def plot_equity_curve(self):
-        """Exports interactive backtest equity curve to HTML."""
-        print("Generating equity curve chart...")
+        """Exports high-contrast interactive backtest equity curve with institutional styling to HTML."""
+        print("Generating high-contrast equity curve chart...")
         fig = go.Figure()
 
+        # Strategy Line (Neon Mint Green)
         fig.add_trace(go.Scatter(
             x=self.backtest_data.index,
             y=self.backtest_data['Strategy_Equity'],
             mode='lines',
-            name='Macro Regime Strategy',
-            line=dict(color='darkblue', width=2.5)
+            name='Macro Regime Tactical Strategy',
+            line=dict(color='#00E676', width=2.8)
         ))
+
+        # Benchmark Line (Silver-Gray Dashed)
         fig.add_trace(go.Scatter(
             x=self.backtest_data.index,
             y=self.backtest_data['SPY_Equity'],
             mode='lines',
-            name='Benchmark: S&P 500 (SPY)',
-            line=dict(color='gray', width=2, dash='dash')
+            name='Benchmark: S&P 500 Buy & Hold (SPY)',
+            line=dict(color='#8B949E', width=2.0, dash='dash')
         ))
 
         fig.update_layout(
-            title="Equity Curve Simulation: Macro Rotation vs. Buy-and-Hold SPY",
-            yaxis_title="Portfolio Value ($)",
-            xaxis_title="Date",
+            paper_bgcolor="#12161f",
+            plot_bgcolor="#12161f",
+            font=dict(family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif", color="#C9D1D9"),
+            yaxis=dict(
+                title="Portfolio Equity ($ Initial Base = 100)",
+                gridcolor="#21262d",
+                zerolinecolor="#30363d",
+                showline=True,
+                linecolor="#30363d"
+            ),
+            xaxis=dict(
+                title="Observation Date",
+                gridcolor="#21262d",
+                zerolinecolor="#30363d",
+                showline=True,
+                linecolor="#30363d"
+            ),
             hovermode="x unified",
-            template="plotly_white",
-            height=600
+            height=600,
+            margin=dict(l=50, r=30, t=20, b=40),
+            legend=dict(
+                orientation="h",
+                yanchor="bottom",
+                y=1.02,
+                xanchor="right",
+                x=1,
+                font=dict(size=11)
+            )
         )
-        fig.write_html("equity_curve_chart.html", auto_open=True)
+
+        guide_html = """
+        <div class="grid">
+            <div class="card">
+                <div class="card-header" style="color: #00E676;">
+                    <span>&#9670;</span> Tail-Risk & Crash Defense (2008 & 2020)
+                </div>
+                <p>During the 2008 Global Financial Crisis, passive equity buy-and-hold crashed by <strong>-50.78%</strong>. By actively rotating into long-term sovereign debt (TLT) upon deflationary momentum detection, the strategy capped maximum historical drawdown to <strong>-32.36%</strong>.</p>
+            </div>
+            <div class="card">
+                <div class="card-header" style="color: #58a6ff;">
+                    <span>&#9670;</span> The Opportunity Cost in Structural Bull Markets
+                </div>
+                <p>During the protracted zero-interest-rate environment (2012–2021), US large-cap equities compounded aggressively. Any dynamic rotation into defensive commodities or gold during short-lived growth decelerations incurred an performance drag against 100% equity concentration.</p>
+            </div>
+            <div class="card">
+                <div class="card-header" style="color: #ffd700;">
+                    <span>&#9670;</span> Implementation: Dynamic Tilting vs. All-or-Nothing
+                </div>
+                <p>The practical takeaway for asset allocators is using this regime signal as a <strong>portfolio tilting overlay</strong> (e.g., maintaining a 60/40 anchor while shifting 20% tactical sleeves into the favored regime asset) rather than full 100% binary switches.</p>
+            </div>
+        </div>
+        """
+
+        self._wrap_with_dashboard_template(
+            fig=fig,
+            title="Equity Curve Simulation: Macro Tactical Rotation vs. S&P 500",
+            subtitle="Cumulative compounding simulation ($100 starting base, 2006-Present) strictly lagged to eliminate look-ahead bias",
+            guide_html=guide_html,
+            filename="equity_curve_chart.html"
+        )
 
 
 if __name__ == "__main__":

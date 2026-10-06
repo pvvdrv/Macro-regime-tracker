@@ -87,10 +87,10 @@ The Python script automatically generates two dark-mode, high-contrast HTML dash
 ### Chart 1: Macroeconomic Regime History (`regime_chart.html`)
 * **The Background Shading (Economic Weather):**
   * **Green (Goldilocks):** Growth is up, inflation is down. Equities historically dominate here.
-  * **Warm Amber (Reflation):** Growth is up, inflation is up. Commodities and physical assets take the lead.
+  * **Amber (Reflation):** Growth is up, inflation is up. Commodities and physical assets take the lead.
   * **Crimson (Stagflation):** Growth is down, inflation is up. A toxic environment for stocks/bonds; Gold protects purchasing power.
   * **Blue (Deflation):** Growth is down, inflation is down. Plunging yields drive capital gains in long-duration Treasury bonds.
-* **The Neon Lines (Asset Performance):** All four asset classes (Cyan for SPY, Purple for TLT, Gold for GLD, and Coral for DBC) are normalized to a starting base of 100. This allows you to instantly compare which asset decoupled and saved the portfolio during specific historical crises.
+* ** Neon Lines (Asset Performance):** All four asset classes (Cyan for SPY, Purple for TLT, Gold for GLD, and Coral for DBC) are normalized to a starting base of 100. This allows you to instantly compare which asset decoupled and saved the portfolio during specific historical crises.
 
 ### Chart 2: Equity Curve Simulation (`equity_curve_chart.html`)
 * **Neon Green Line (Tactical Strategy) vs. Dashed Silver Line (S&P 500):**

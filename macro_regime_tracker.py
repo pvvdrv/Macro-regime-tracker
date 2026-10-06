@@ -490,7 +490,7 @@ class MacroRegimeTracker:
 
 
 if __name__ == "__main__":
-    API_KEY = "YOUR KEY HERE"
+    API_KEY = "eea9901b8442e3149d92246cff2f117a"
     SAVE_DIRECTORY = r"C:\Documents\Project\Macro\Projects\Macro regime tracker"
 
     # Automatically create the directory if it doesn't already exist

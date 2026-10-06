@@ -24,7 +24,7 @@ This project builds a systematic, rules-based engine that removes emotions from 
 
 To understand where the economy is headed, the model looks at three core variables pulled directly from the Federal Reserve Economic Data (FRED) API:
 
-### 1. Growth — Industrial Production Index (`INDPRO`)
+### 1. Growth - Industrial Production Index (`INDPRO`)
 * **What it measures:** The physical output of factories, mines, and utilities across the United States.
 * **Why we use it:** While Gross Domestic Product (GDP) is the most famous measure of growth, it is only published once every three months. Industrial Production comes out monthly, giving us a much faster read on the real business cycle.
 
@@ -32,7 +32,7 @@ To understand where the economy is headed, the model looks at three core variabl
 * **What it measures:** The average change over time in the prices paid by consumers for everyday goods and services.
 * **Why we use it:** Inflation determines what the central bank (the Federal Reserve) does next. When inflation runs hot, the Fed raises interest rates, increasing borrowing costs for companies. When inflation falls, the Fed has room to cut rates and support the economy.
 
-### 3. Liquidity — 10-Year vs. 2-Year Treasury Spread (`T10Y2Y`)
+### 3. Liquidity - 10-Year vs. 2-Year Treasury Spread (`T10Y2Y`)
 * **What it measures:** The difference between long-term and short-term U.S. government borrowing rates (also known as the slope of the yield curve).
 * **Why we use it:** Under normal economic conditions, investors demand higher interest rates to lock up their money for 10 years than for 2 years. When the 2-year rate rises above the 10-year rate (an "inverted" yield curve), it signals that credit is tightening and banks are becoming reluctant to lend. When the spread widens, it signals that liquidity is easing and capital is flowing freely.
 
@@ -40,7 +40,7 @@ To understand where the economy is headed, the model looks at three core variabl
 
 ## 3. How We Process the Data (The Logic & Math)
 
-Financial markets rarely react to raw economic levels alone. Instead, markets care about **momentum**—whether things are getting better or worse relative to recent trends.
+Financial markets rarely react to raw economic levels alone. Instead, markets care about **momentum**-whether things are getting better or worse relative to recent trends.
 
 ### Step 1: Stripping Out Seasonality (Year-over-Year Change)
 Raw monthly numbers can be misleading. For example, retail sales and production always jump around December due to the holiday season. To eliminate this seasonal noise, we calculate the 12-month percentage change:

@@ -24,7 +24,7 @@ This project builds a systematic, rules-based engine that removes emotions from 
 
 To understand where the economy is headed, the model looks at three core variables pulled directly from the Federal Reserve Economic Data (FRED) API:
 
-### 1. Growth   Industrial Production Index (`INDPRO`)
+### 1. Growth — Industrial Production Index (`INDPRO`)
 * **What it measures:** The physical output of factories, mines, and utilities across the United States.
 * **Why we use it:** While Gross Domestic Product (GDP) is the most famous measure of growth, it is only published once every three months. Industrial Production comes out monthly, giving us a much faster read on the real business cycle.
 
@@ -101,7 +101,24 @@ We simulated this dynamic strategy against a passive Buy-and-Hold S&P 500 approa
 
 ---
 
-## 6. How the Code is Structured
+## 6. Academic References & Literature
+
+The systematic rules, regime definitions, and risk-management principles used in this model are grounded in the following academic and industry literature:
+
+1. **The 4-Regime Framework (Growth vs. Inflation):**
+   * Dalio, R. (2004). *Engineering Targeted Returns and Risks*. Bridgewater Associates. *(Pioneered the foundational "All Weather" matrix that divides the economic environment into four quadrants based on accelerating/decelerating growth and inflation).*
+2. **Tactical Asset Allocation & Trend Following:**
+   * Faber, M. T. (2007). "A Quantitative Approach to Tactical Asset Allocation." *The Journal of Wealth Management*. *(Provides the mathematical justification for using Simple Moving Averages (SMA) to rotate assets and protect against severe market drawdowns).*
+3. **Asset Behavior Across Business Cycles:**
+   * Ilmanen, A. (2011). *Expected Returns: An Investor's Guide to Harvesting Market Rewards*. Wiley. *(An industry-standard text detailing exactly why certain asset classes, like long-term treasuries and commodities, outperform in specific deflationary or inflationary regimes).*
+4. **Yield Curve and Economic Forecasting:**
+   * Estrella, A., & Mishkin, F. S. (1996). "The Yield Curve as a Predictor of U.S. Recessions." *Federal Reserve Bank of New York*. *(Validates the use of the 10-Year minus 2-Year Treasury spread (`T10Y2Y`) as a leading indicator for credit liquidity and economic deceleration).*
+5. **Quantitative Backtesting & Look-Ahead Bias:**
+   * Lopez de Prado, M. (2018). *Advances in Financial Machine Learning*. Wiley. *(Explains the critical necessity of lagging economic data releases (`.shift(1)`) to eliminate look-ahead bias and create realistic financial simulations).*
+
+---
+
+## 7. How the Code is Structured
 
 The project is built using a clean Object-Oriented structure in Python:
 
